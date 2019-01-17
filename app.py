@@ -2,24 +2,16 @@
 
 from azure.servicebus import ServiceBusService, Message, Topic
 from azure.mgmt.servicebus import ServiceBusManagementClient
-import os
-
-service_namespace=os.environ['SERVICEBUS_NAMESPACE_NAME']
-shared_access_key_name=os.environ['SAS_KEY_NAME']
-shared_access_key_value=os.environ['SAS_KEY_VALUE']
-topic = os.environ['SERVICEBUS_TOPIC_NAME']
-subscription = os.environ['SERVICE_SUBSCRIPTION']
+import os, config
 
 bus_service = ServiceBusService(
-    service_namespace=service_namespace,
-    shared_access_key_name=shared_access_key_name,
-    shared_access_key_value=shared_access_key_value)
+    service_namespace=config.sb_namespace_name,
+    shared_access_key_name=config.shared_access_key_name,
+    shared_access_key_value=config.shared_access_key_value)
 
-#msgSend = Message(b'Test Message3')
-#bus_service.send_topic_message(topic, msgSend)
+msgSend = Message(b'Test Message3')
+bus_service.send_topic_message(config.sb_topic_name, msgSend)
 
-msg = bus_service.receive_subscription_message(topic, subscription, peek_lock=True)
-print(msg.body)
-msg.unlock
-
-#bus_mgmt_service = ServiceBusManagementClient()
+# msg = bus_service.receive_subscription_message(config.sb_topic_name, config.sb_subscription_name, peek_lock=True)
+# print(msg.body)
+# msg.unlock
