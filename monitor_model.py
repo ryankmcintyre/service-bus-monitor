@@ -31,9 +31,10 @@ class Series:
         self.sum = sum
         self.count = count
 
-series = Series(["SB value"], 1, 2, 3, 2)
-baseData = BaseData("Message Count", "Some Namespace", ["SB name"], [series])
-data = Data(baseData)
-azureMonitor = AzureMonitor(datetime.datetime.now().isoformat(), data)
+def sample_metric():
+    series = Series(["SB value"], 1, 2, 3, 2)
+    baseData = BaseData("Message Count", "Some Namespace", ["SB name"], [series])
+    data = Data(baseData)
+    azureMonitor = AzureMonitor(datetime.datetime.now().isoformat(), data)
 
-print(json.dumps(azureMonitor, indent=4, default=lambda o: o.__dict__))
+    return json.dumps(azureMonitor, indent=4, default=lambda o: o.__dict__)

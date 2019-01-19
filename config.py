@@ -11,6 +11,8 @@ client_id = os.environ['CLIENT_ID']
 client_password = os.environ['CLIENT_PASSWORD']
 
 # Service Bus Details
+sb_region = os.environ['SERVICEBUS_REGION']
+sb_resource_id = os.environ['SERVICEBUS_RESOURCE_ID']
 sb_resource_group = os.environ['SERVICEBUS_RESOURCE_GROUP']
 sb_namespace_name = os.environ['SERVICEBUS_NAMESPACE_NAME']
 sb_topic_name = os.environ['SERVICEBUS_TOPIC_NAME']
