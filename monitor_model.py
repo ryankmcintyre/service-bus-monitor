@@ -32,9 +32,9 @@ class Series:
         self.count = count
 
 def sample_metric():
-    series = Series(["SB value"], 1, 2, 3, 2)
-    baseData = BaseData("Message Count", "Some Namespace", ["SB name"], [series])
+    series = Series(["SBvalue"], 1, 2, 3, 2)
+    baseData = BaseData("MessageCount", "SomeNamespace", ["SBname"], [series])
     data = Data(baseData)
-    azureMonitor = AzureMonitor(datetime.datetime.now().isoformat(), data)
+    azureMonitor = AzureMonitor(datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S"), data)
 
-    return json.dumps(azureMonitor, indent=4, default=lambda o: o.__dict__)
+    return json.dumps(azureMonitor, default=lambda o: o.__dict__)
