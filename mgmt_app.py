@@ -2,6 +2,7 @@ from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.servicebus import ServiceBusManagementClient
 import os, config, json, monitor_model, datetime, monitor_api
 
+# Parameters for an Azure AD Application that has permission for "Monitoring Metrics Publisher" on the Service Bus Namespace
 credentials = ServicePrincipalCredentials(
     client_id = config.client_id,
     secret = config.client_password,
