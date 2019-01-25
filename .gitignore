@@ -9,6 +9,7 @@ __pycache__/
 .vscode/
 scratch.py
 env.list
+token.json
 
 # Distribution / packaging
 .Python
