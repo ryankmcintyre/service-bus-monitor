@@ -1,11 +1,24 @@
-FROM python:3.6
+FROM python:3.6-alpine as base
 
-WORKDIR /usr/src/app
+FROM base as buildbase
+
+RUN mkdir /install
+WORKDIR /install
 
 COPY requirements.txt ./
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Adding build dependencies first, also using cache-dir instead of --no-cache-dir due 
+# to issue https://github.com/pypa/pip/issues/6158#issuecomment-456619072
+RUN apk add --no-cache --virtual .cffi_deps build-base python3-dev libffi-dev openssl-dev && \
+    pip install --cache-dir=/pipcache --install-option="--prefix=/install" -r requirements.txt && \
+    rm -rf /pipcache && \
+    apk del .cffi_deps
 
+FROM base
+
+WORKDIR /usr/src/app
+
+COPY --from=buildbase /install /usr/local
 COPY . .
 
 # Environment variables
