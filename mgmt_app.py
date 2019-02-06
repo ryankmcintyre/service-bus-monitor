@@ -6,9 +6,6 @@ import asyncio, os, config, json, monitor_model, datetime, monitor_api
 
 
 def send_to_monitor_api(topic_name, subscription_name, metric_name, metric_value, query_time):
-    # Can't send zero, Monitor will return 400
-    if metric_value == 0:
-        return
     series = monitor_model.Series([topic_name, subscription_name], metric_value, metric_value, metric_value, 1) # Count always 1 since we're sending just one metric value
     baseData = monitor_model.BaseData(metric_name, config.metric_namespace, ["TopicName", "SubscriptionName"], [series])
     data = monitor_model.Data(baseData)
