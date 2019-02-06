@@ -4,10 +4,8 @@ from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.servicebus import ServiceBusManagementClient
 import asyncio, os, config, json, monitor_model, datetime, monitor_api
 
-# Grabbing the time now so we use the same timestamp for all metrics sent to monitor
-query_time = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
 
-def send_to_monitor_api(topic_name, subscription_name, metric_name, metric_value):
+def send_to_monitor_api(topic_name, subscription_name, metric_name, metric_value, query_time):
     # Can't send zero, Monitor will return 400
     if metric_value == 0:
         return
@@ -20,18 +18,22 @@ def send_to_monitor_api(topic_name, subscription_name, metric_name, metric_value
 
 async def send_subscription_metrics(servicebus_mgmt_client, topic_name):
     subscriptions = servicebus_mgmt_client.subscriptions.list_by_topic(config.sb_resource_group, config.sb_namespace_name, topic_name)
+    # Grabbing the timestamp as close as possible to the group of metrics for the subscriptions to this topic_name.
+    query_time = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
     for subscription in subscriptions:
         send_to_monitor_api(
             topic_name,
             subscription.name,
             "active_message_count",
-            subscription.count_details.active_message_count
+            subscription.count_details.active_message_count,
+            query_time
         )
         send_to_monitor_api(
             topic_name,
             subscription.name,
             "dead_letter_message_count",
-            subscription.count_details.dead_letter_message_count
+            subscription.count_details.dead_letter_message_count,
+            query_time
         )
 
 async def main():
