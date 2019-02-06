@@ -51,7 +51,7 @@ def get_azure_token():
         return resp_json["access_token"]
 
 def send_to_azure_monitor_api(postData):
-    apiUrl = f"https://{config.sb_region}.monitoring.azure.com{config.sb_resource_id}/metrics"
+    apiUrl = f"https://{config.sb_region}.monitoring.azure.com/subscriptions/{config.subscription_id}/resourceGroups/{config.sb_resource_group}/providers/Microsoft.ServiceBus/namespaces/{config.sb_namespace_name}/metrics"
     
     token = get_azure_token()
     
