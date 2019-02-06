@@ -18,7 +18,7 @@ sb_topic_name = os.environ['SERVICEBUS_TOPIC_NAME']
 sb_subscription_name = os.environ['SERVICEBUS_SUBSCRIPTION_NAME']
 
 # Azure Monitor "Metric Namespace" with customnamespace as default value
-metric_namespace = os.getenv('METRIC_NAMESPACE', 'customnamespace')
+metric_namespace = (os.getenv('METRIC_NAMESPACE', 'customnamespace') or 'customnamespace')
 
 # SAS Key
 shared_access_key_name=os.environ['SAS_KEY_NAME']

@@ -13,7 +13,7 @@ def send_to_monitor_api(topic_name, subscription_name, metric_name, metric_value
     baseData = monitor_model.BaseData(metric_name, config.metric_namespace, ["TopicName", "SubscriptionName"], [series])
     data = monitor_model.Data(baseData)
     azureMonitor = monitor_model.AzureMonitor(query_time, data)
-    print("Sending", topic_name, subscription_name, metric_name, metric_value)
+    print("Sending", topic_name, subscription_name, config.metric_namespace, metric_name, metric_value)
     monitor_api.send_to_azure_monitor_api(json.dumps(azureMonitor, default=lambda o: o.__dict__))
 
 async def send_subscription_metrics(servicebus_mgmt_client, topic_name):
